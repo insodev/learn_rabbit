@@ -9,11 +9,11 @@ import round_robust
 
 _, prefix = os.path.split(__file__)
 
-for logger_name in [__name__, 'custom_robust', 'aio_pika.robust_connection', 'round_robust']:
-    logger_rmq = logging.getLogger(logger_name)
-    logger_rmq.setLevel(logging.DEBUG)
+for logger_name in ['custom_robust', 'aio_pika.robust_connection', 'round_robust', __name__]:
+    logger = logging.getLogger(logger_name)
+    logger.setLevel(logging.DEBUG)
     # create file handler which logs even debug messages
-    fh = logging.FileHandler(f'./logs/{prefix}{logger_name}.log')
+    fh = logging.FileHandler(f'./logs/{prefix}.{logger_name}.log')
     fh.setLevel(logging.DEBUG)
     # create console handler with a higher log level
     ch = logging.StreamHandler()
@@ -23,18 +23,17 @@ for logger_name in [__name__, 'custom_robust', 'aio_pika.robust_connection', 'ro
     fh.setFormatter(formatter)
     ch.setFormatter(formatter)
     # add the handlers to the logger
-    logger_rmq.addHandler(fh)
-    logger_rmq.addHandler(ch)
-
-
-URLS = [
-    'amqp://test:test@localhost:32783/test',
-    'amqp://test:test@localhost:32789/test',
-]
+    logger.addHandler(fh)
+    logger.addHandler(ch)
 
 
 async def main(loop):
-    connection = await round_robust.custom_connect(urls=URLS, loop=loop)
+    urls = [
+        'amqp://test:test@localhost:32783/test',
+        'amqp://test:test@localhost:32789/test',
+    ]
+
+    connection = await round_robust.custom_connect(urls=urls, loop=loop)
 
     async with connection:
         routing_key = "test_queue"

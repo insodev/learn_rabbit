@@ -6,10 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-aio-pika = "6.6.*"
-yaml = "*"
-pyyaml = "*"
-pyaml = "*"
+aio-pika = "==6.6.*"
 
 [requires]
 python_version = "3.6"

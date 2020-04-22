@@ -1,6 +1,5 @@
 import asyncio
 import logging
-from logging import getLogger
 from typing import List
 from typing import Type
 
@@ -11,7 +10,6 @@ from aio_pika.types import TimeoutType
 from yarl import URL
 
 logger = logging.getLogger(__name__)
-log = getLogger(__name__)
 
 
 class RoundRobustConnection(RobustConnection):
